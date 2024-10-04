@@ -67,7 +67,7 @@ var codepeople_search_in_place_generator = function (){
 		},
 		openAccordion = function(e)
 		{
-			if(e.is(':hidden') || e.closest('.e-n-accordion-item').length)
+			if(e.is(':hidden') || e.closest('.e-n-accordion-item').length || e.closest('.wp-block-themeisle-blocks-accordion-item:not(.open)').length)
 			{
 				var t,h;
 
@@ -176,6 +176,13 @@ var codepeople_search_in_place_generator = function (){
 					t.addClass('active vc_active');
 					return;
                 }
+
+				// Neve theme
+				t = e.closest('.wp-block-themeisle-blocks-accordion-item');
+				if(t.length)
+				{
+					t.find('.wp-block-themeisle-blocks-accordion-item__title').trigger('click');
+				}
 			}
 		},
 		scrollToTerm = function(e)
