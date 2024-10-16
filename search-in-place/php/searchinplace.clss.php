@@ -94,6 +94,18 @@ class CodePeopleSearchInPlace {
 	public function get_search_form( $atts = array() ) {
 		global $wp_filter;
 
+		$get_search_form = function() {
+			return '<form role="search" method="get" class="search-form" action="' . esc_url( home_url( '/' ) ) . '">
+				<label>
+					<span class="screen-reader-text">' .
+					_x( 'Search for:', 'label' ) .
+					'</span>
+					<input type="search" class="search-field" placeholder="' . esc_attr_x( 'Search &hellip;', 'placeholder' ) . '" value="' . get_search_query() . '" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="' . esc_attr_x( 'Search', 'submit button' ) . '" />
+			</form>';
+		};
+
 		$_check_atts = function ( $atts, $att_name) {
 			return (
 				! empty( $atts[ $att_name ] ) &&
@@ -111,7 +123,13 @@ class CodePeopleSearchInPlace {
 		}
 
 		// Get the search box
-		$search = get_search_form( false );
+		try {
+			$search = get_search_form( false );
+		} catch( Exception $err ) {
+			$search = $get_search_form();
+		} catch( Error $err ) {
+			$search = $get_search_form();
+		}
 
 		// Enable filters and actions again
 		foreach( $bk_hooks as $hook_name => $hook_data ) {

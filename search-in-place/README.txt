@@ -4,7 +4,7 @@ Donate link: https://searchinplace.dwbooster.com
 Tags: search,search pages,search posts,ajax,posts,page,post,post search,page search,content,title,highlight,attachment,navigation,search custom post type,custom post,woocommerce,admin,image,images,taxonomy,all or any terms,colors
 Requires at least: 3.0.5
 Tested up to: 6.6
-Stable tag: 1.1.19
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,6 +149,10 @@ A: Go to the settings page of the plugin, and enter the IDs of pages or posts th
 4.	Search in Place's Setup page.
 
 == Changelog ==
+
+= 1.2.0 =
+
+* Reimplements the search form insertion module to allow the plugin to recover smoothly from conflicts with third-party themes and plugins.
 
 = 1.1.19 =
 

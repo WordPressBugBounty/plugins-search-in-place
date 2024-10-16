@@ -2,7 +2,7 @@
 /*
 Plugin Name: Search In Place
 Plugin URI: https://searchinplace.dwbooster.com
-Version: 1.1.19
+Version: 1.2.0
 Author: CodePeople
 Author URI: https://searchinplace.dwbooster.com
 Text Domain: search-in-place
@@ -10,7 +10,7 @@ Description: Search in Place improves blog search by displaying query results in
 */
 
 if ( ! defined( 'SEARCH_IN_PLACE_VERSION' ) ) {
-	define( 'SEARCH_IN_PLACE_VERSION', '1.1.19' );
+	define( 'SEARCH_IN_PLACE_VERSION', '1.2.0' );
 }
 
 require_once 'banner.php';
