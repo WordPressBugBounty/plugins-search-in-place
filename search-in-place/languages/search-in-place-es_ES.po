@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: search-in-place\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-30 23:14+0200\n"
-"PO-Revision-Date: 2024-07-30 23:14+0200\n"
+"POT-Creation-Date: 2024-11-01 23:31+0100\n"
+"PO-Revision-Date: 2024-11-01 23:31+0100\n"
 "Last-Translator: CodePeople\n"
 "Language-Team: CodePeople\n"
 "Language: es_ES\n"
@@ -122,36 +122,36 @@ msgstr "post"
 msgid "page"
 msgstr "página"
 
-#: php/searchinplace.clss.php:351
+#: php/searchinplace.clss.php:374
 msgid "Settings"
 msgstr "Configuración"
 
-#: php/searchinplace.clss.php:362
+#: php/searchinplace.clss.php:385
 msgid "Request custom changes"
 msgstr ""
 
-#: php/searchinplace.clss.php:363
+#: php/searchinplace.clss.php:386
 msgid "Help"
 msgstr ""
 
-#: php/searchinplace.clss.php:414
+#: php/searchinplace.clss.php:438
 msgid "Settings Updated"
 msgstr "Configuración Actualizada"
 
-#: php/searchinplace.clss.php:545
+#: php/searchinplace.clss.php:573
 msgid ""
 "For more information go to the <a href=\"https://searchinplace.dwbooster."
 "com\" target=\"_blank\">Search in Place</a> plugin page."
 msgstr ""
 
-#: php/searchinplace.clss.php:545
+#: php/searchinplace.clss.php:573
 msgid ""
 "For any issues with Search in Place, do not hesitate in <a href=\"https://"
 "wordpress.org/support/plugin/search-in-place#new-post\" "
 "target=\"_blank\">contact us</a>."
 msgstr ""
 
-#: php/searchinplace.clss.php:546
+#: php/searchinplace.clss.php:574
 msgid ""
 "If you want test the premium version of Search in Place go to the following "
 "links:<br/> <a href=\"https://demos.dwbooster.com/search-in-place/wp-login."
@@ -161,116 +161,136 @@ msgid ""
 "in Place</a>"
 msgstr ""
 
-#: php/searchinplace.clss.php:548
+#: php/searchinplace.clss.php:576
 msgid ""
 "The plugin converts all search box in the website into search in place "
 "components, however, for inserting a search box in the page's content use "
 "the shortcode:"
 msgstr ""
 
-#: php/searchinplace.clss.php:550
+#: php/searchinplace.clss.php:578
 msgid ""
 "For search in page only, highlighting the search terms, insert the shortcode "
 "with the <span style='color:red;' "
 "class='search_in_place_blink_me'>in_current_page</span> attribute:"
 msgstr ""
 
-#: php/searchinplace.clss.php:554
+#: php/searchinplace.clss.php:582
 #, fuzzy
 #| msgid "Settings"
 msgid "General Settings"
 msgstr "Configuración"
 
-#: php/searchinplace.clss.php:560
+#: php/searchinplace.clss.php:588
 msgid "Apply to the search box inserted as shortcode only"
 msgstr ""
 
-#: php/searchinplace.clss.php:568
+#: php/searchinplace.clss.php:596
 msgid "Enter the number of posts to display"
 msgstr "Entre el número de posts a mostrar"
 
-#: php/searchinplace.clss.php:576
+#: php/searchinplace.clss.php:604
 msgid "Enter the minimum of characters number for start the search"
 msgstr ""
 "Entre la cantidad mínima de caractéres requeridos para iniciar la búsqueda"
 
-#: php/searchinplace.clss.php:584
+#: php/searchinplace.clss.php:612
 msgid "Connection operator"
 msgstr ""
 
-#: php/searchinplace.clss.php:591
+#: php/searchinplace.clss.php:619
 msgid "Get results with any or all of words in the search box."
 msgstr ""
 
-#: php/searchinplace.clss.php:600
+#: php/searchinplace.clss.php:628
 msgid "Elements to display"
 msgstr "Elementos a mostrar"
 
-#: php/searchinplace.clss.php:606
+#: php/searchinplace.clss.php:634
 msgid "Post title"
 msgstr "Título del post"
 
-#: php/searchinplace.clss.php:606
+#: php/searchinplace.clss.php:634
 msgid "Post thumbnail"
 msgstr "Imagen del post"
 
-#: php/searchinplace.clss.php:606
+#: php/searchinplace.clss.php:634
 msgid "Post author"
 msgstr "Autor post"
 
-#: php/searchinplace.clss.php:606
+#: php/searchinplace.clss.php:634
 msgid "Post date"
 msgstr "Fecha del post"
 
-#: php/searchinplace.clss.php:606
+#: php/searchinplace.clss.php:634
 msgid "Post summary"
 msgstr "Resumen del post"
 
-#: php/searchinplace.clss.php:615
+#: php/searchinplace.clss.php:643
 msgid "Select the date format"
 msgstr "Seleccione el formato para la fecha"
 
-#: php/searchinplace.clss.php:628
+#: php/searchinplace.clss.php:656
 msgid "Enter the number of characters for posts' summaries"
 msgstr "Entre el número de caractéres a mostrar en el resumen"
 
-#: php/searchinplace.clss.php:640
+#: php/searchinplace.clss.php:668
+#, fuzzy
+#| msgid "Search in"
+msgid "Search box and popup results design"
+msgstr "Buscar en"
+
+#: php/searchinplace.clss.php:670
 #, fuzzy
 #| msgid "Search in"
 msgid "Search box design"
 msgstr "Buscar en"
 
-#: php/searchinplace.clss.php:646
+#: php/searchinplace.clss.php:675
+msgid ""
+"Turn off the plugin styles to utilize the search box design specified by "
+"WordPress and the active theme on the website."
+msgstr ""
+
+#: php/searchinplace.clss.php:680
+msgid "Popup results design"
+msgstr ""
+
+#: php/searchinplace.clss.php:685
 msgid "Background color"
 msgstr ""
 
-#: php/searchinplace.clss.php:655
+#: php/searchinplace.clss.php:694
 msgid "Border color"
 msgstr ""
 
-#: php/searchinplace.clss.php:664
+#: php/searchinplace.clss.php:703
 msgid "Label text color"
 msgstr ""
 
-#: php/searchinplace.clss.php:673
+#: php/searchinplace.clss.php:712
 msgid "Label text shadow"
 msgstr ""
 
-#: php/searchinplace.clss.php:682
+#: php/searchinplace.clss.php:721
 msgid "Label background color"
 msgstr ""
 
-#: php/searchinplace.clss.php:695
+#: php/searchinplace.clss.php:734
 #, fuzzy
 #| msgid "More Results"
 msgid "More results text"
 msgstr "Más Resultados"
 
-#: php/searchinplace.clss.php:703
+#: php/searchinplace.clss.php:742
 msgid "Background color of active item"
 msgstr ""
 
-#: php/searchinplace.clss.php:711
+#: php/searchinplace.clss.php:752
+msgid "Reset Design"
+msgstr ""
+
+#: php/searchinplace.clss.php:757
 msgid ""
 "The next options are available only for the advanced version of Search in "
 "Place"
@@ -278,49 +298,49 @@ msgstr ""
 "Las siguientes opciones están solo disponibles para la versión avanzada de "
 "Search in Place"
 
-#: php/searchinplace.clss.php:711 php/searchinplace.clss.php:890
+#: php/searchinplace.clss.php:757 php/searchinplace.clss.php:936
 msgid "CLICK HERE for more information"
 msgstr ""
 
-#: php/searchinplace.clss.php:716
+#: php/searchinplace.clss.php:762
 msgid "Search in child pages of (Ids of parent pages separated by comma)"
 msgstr ""
 
-#: php/searchinplace.clss.php:724
+#: php/searchinplace.clss.php:770
 msgid "Exclude posts/pages (Ids separated by comma)"
 msgstr ""
 
-#: php/searchinplace.clss.php:734
+#: php/searchinplace.clss.php:780
 msgid "Search in"
 msgstr "Buscar en"
 
-#: php/searchinplace.clss.php:739
+#: php/searchinplace.clss.php:785
 msgid "Posts/Pages common data (title, content):"
 msgstr ""
 
-#: php/searchinplace.clss.php:747
+#: php/searchinplace.clss.php:793
 msgid "Posts/Pages metadata (additional data of articles):"
 msgstr ""
 
-#: php/searchinplace.clss.php:755
+#: php/searchinplace.clss.php:801
 msgid "Posts/Pages author (display name):"
 msgstr ""
 
-#: php/searchinplace.clss.php:763
+#: php/searchinplace.clss.php:809
 msgid ""
 "If you are using in your website some of plugins listed below, press the "
 "related button for searching in its custom post-types and taxonomies."
 msgstr ""
 
-#: php/searchinplace.clss.php:776
+#: php/searchinplace.clss.php:822
 msgid "Posts Type:"
 msgstr "Fecha del post:"
 
-#: php/searchinplace.clss.php:788
+#: php/searchinplace.clss.php:834
 msgid "Taxonomy:"
 msgstr ""
 
-#: php/searchinplace.clss.php:797
+#: php/searchinplace.clss.php:843
 msgid ""
 "In the <b>Professional version of the plugin</b> it is possible to insert a "
 "search box to search for specific post types, regardless of the post types "
@@ -328,74 +348,74 @@ msgid ""
 "separating the post types by comma:"
 msgstr ""
 
-#: php/searchinplace.clss.php:804
+#: php/searchinplace.clss.php:850
 msgid "In Search Page"
 msgstr "En la página de búsqueda"
 
-#: php/searchinplace.clss.php:809
+#: php/searchinplace.clss.php:855
 msgid "Highlight the terms in result"
 msgstr "Resaltar los términos en los resultados"
 
-#: php/searchinplace.clss.php:816
+#: php/searchinplace.clss.php:862
 msgid "Highlights the search terms on search page."
 msgstr "Resaltar los términos en los resultados."
 
-#: php/searchinplace.clss.php:820
+#: php/searchinplace.clss.php:866
 msgid "Identify the posts type in search result"
 msgstr "Identificar el tipo de los posts en el resultado de las búsquedas"
 
-#: php/searchinplace.clss.php:826
+#: php/searchinplace.clss.php:872
 msgid "Indicates the type of document (article or page)"
 msgstr ""
 
-#: php/searchinplace.clss.php:831
+#: php/searchinplace.clss.php:877
 msgid "In Resulting Pages"
 msgstr ""
 
-#: php/searchinplace.clss.php:836
+#: php/searchinplace.clss.php:882
 msgid "Highlight the terms in resulting pages"
 msgstr "Resaltar los términos en las páginas de resultados"
 
-#: php/searchinplace.clss.php:843
+#: php/searchinplace.clss.php:889
 msgid "Highlights the search terms on resulting page."
 msgstr "Resaltar los términos en los resultados."
 
-#: php/searchinplace.clss.php:847
+#: php/searchinplace.clss.php:893
 msgid "Terms colors in resulting pages and search in page"
 msgstr ""
 
-#: php/searchinplace.clss.php:851
+#: php/searchinplace.clss.php:897
 msgid "Enter a color code per line. Ex. #FF0000"
 msgstr ""
 
-#: php/searchinplace.clss.php:856
+#: php/searchinplace.clss.php:902
 #, fuzzy
 #| msgid "Search in Place"
 msgid "Search in page selectors"
 msgstr "Search in Place"
 
-#: php/searchinplace.clss.php:860
+#: php/searchinplace.clss.php:906
 msgid ""
 "Enter the selector where to search and highlight the search terms separated "
 "by comma.<br>Ex. <b>div.hentry,#content,#main,div.content,#middle,#container,"
 "#wrapper,article,.elementor,body</b>"
 msgstr ""
 
-#: php/searchinplace.clss.php:873
+#: php/searchinplace.clss.php:919
 msgid "Recommended before uninstalling"
 msgstr ""
 
-#: php/searchinplace.clss.php:878
+#: php/searchinplace.clss.php:924
 msgid "Delete all settings?"
 msgstr ""
 
-#: php/searchinplace.clss.php:882
+#: php/searchinplace.clss.php:928
 msgid ""
 "Deletes the settings from the database. If you are in a multisite WordPress "
 "installation, deletes the settings from all blogs."
 msgstr ""
 
-#: php/searchinplace.clss.php:890
+#: php/searchinplace.clss.php:936
 msgid ""
 "If you require some of features listed above, don't doubt to upgrade to the "
 "advanced version of Search in Place"
@@ -403,11 +423,11 @@ msgstr ""
 "Las siguientes opciones están solo disponibles para la versión avanzada de "
 "Search in Place"
 
-#: php/searchinplace.clss.php:892
+#: php/searchinplace.clss.php:938
 msgid "Update Settings"
 msgstr "Actualizar la configuración"
 
-#: php/searchinplace.clss.php:898
+#: php/searchinplace.clss.php:944
 msgid ""
 "The option selected is available only in the advanced version, please go to "
 "the product's webpage  through the previous link"

@@ -3,8 +3,8 @@ Contributors: codepeople
 Donate link: https://searchinplace.dwbooster.com
 Tags: search,search pages,search posts,ajax,posts,page,post,post search,page search,content,title,highlight,attachment,navigation,search custom post type,custom post,woocommerce,admin,image,images,taxonomy,all or any terms,colors
 Requires at least: 3.0.5
-Tested up to: 6.6
-Stable tag: 1.2.0
+Tested up to: 6.7
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,6 +149,12 @@ A: Go to the settings page of the plugin, and enter the IDs of pages or posts th
 4.	Search in Place's Setup page.
 
 == Changelog ==
+
+= 1.3.0 =
+
+* Redesigns the search box and search results popup.
+* Includes a new section in the plugin settings to reset the popup results design.
+* Allows selecting between the new search box design or the default WordPress design.
 
 = 1.2.0 =
 

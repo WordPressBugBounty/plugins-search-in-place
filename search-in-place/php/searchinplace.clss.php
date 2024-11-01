@@ -123,12 +123,16 @@ class CodePeopleSearchInPlace {
 		}
 
 		// Get the search box
-		try {
-			$search = get_search_form( false );
-		} catch( Exception $err ) {
+		if( ! get_option( 'search_in_place_initial_search_box_design', 0 ) ) {
 			$search = $get_search_form();
-		} catch( Error $err ) {
-			$search = $get_search_form();
+		} else {
+			try {
+				$search = get_search_form( false );
+			} catch( Exception $err ) {
+				$search = $get_search_form();
+			} catch( Error $err ) {
+				$search = $get_search_form();
+			}
 		}
 
 		// Enable filters and actions again
@@ -171,7 +175,8 @@ class CodePeopleSearchInPlace {
 		}
 
 		$search = preg_replace( '/<\/form>/i', '<input type="hidden" name="search_in_place_form" value="1"></form>', $search );
-		$search = '<div class="search-in-place-box-container ' . ( ! $in_current_page || $_check_atts( $atts, 'display_button' ) ? '' : ' hide-search-button ' ) . ( ! has_filter( 'get_search_form' ) && empty( locate_template('searchform.php') ) ? ' search-in-place-box-container-custom-design ' : '' ) . ' ">' . apply_filters( 'search-in-page-form', $search ) . '</div>';
+
+		$search = '<div class="search-in-place-box-container ' . ( ! $in_current_page || $_check_atts( $atts, 'display_button' ) ? '' : ' hide-search-button ' ) . ( ! get_option( 'search_in_place_initial_search_box_design', 0 ) ? ' search-in-place-box-container-custom-design ' : '' ) . ' ">' . apply_filters( 'search-in-page-form', $search ) . '</div>';
 		return str_replace( array( 're-ajax-search' ), '', $search );
 	} // End get_search_form
 
@@ -384,6 +389,7 @@ class CodePeopleSearchInPlace {
 	} // End settingsLink
 
 	public function clearSettings() {
+		delete_option( 'search_in_place_initial_search_box_design' );
 		delete_option( 'search_in_place_number_of_posts' );
 		delete_option( 'search_in_place_minimum_char_number' );
 		delete_option( 'search_in_place_summary_char_number' );
@@ -471,6 +477,8 @@ class CodePeopleSearchInPlace {
 				}
 			}
 
+			update_option( 'search_in_place_initial_search_box_design', isset( $_REQUEST['initial_search_box_design'] ) ? 1 : 0 );
+
 			update_option( 'search_in_place_box_background_color', $box_background_color );
 			update_option( 'search_in_place_box_border_color', $box_border_color );
 			update_option( 'search_in_place_label_text_color', $label_text_color );
@@ -534,6 +542,7 @@ class CodePeopleSearchInPlace {
 		$label_background_end_color   = get_option( 'search_in_place_label_background_end_color', '#ECECEC' );
 		$more_results_text            = get_option( 'search_in_place_more_results_text', 'More Results' );
 		$active_item_background_color = get_option( 'search_in_place_active_item_background_color', '#FFFFFF' );
+
 		$highlight_colors             = get_option( 'search_in_place_highlight_colors', array( '#F4EFEC', '#B5DCE1', '#F4E0E9', '#D7E0B1', '#F4D9D0', '#D6CDC8', '#F4E3C9', '#CFDAF0' ) );
 		$search_in_page_selectors     = get_option( 'search_in_place_selectors', array( 'div.hentry', '#content', '#main', 'div.content', '#middle', '#container', '#wrapper', 'article', '.elementor', 'body' ) );
 
@@ -656,8 +665,19 @@ class CodePeopleSearchInPlace {
 					</div><!-- End Elements to Display Postbox -->
 
 					<div class="postbox search-in-place-postbox"><!-- Search Box Design Postbox -->
-						<h3 class="hndle"><span>' . esc_html__( 'Search box design', 'search-in-place' ) . '</span></h3>
+						<h3 class="hndle"><span>' . esc_html__( 'Search box and popup results design', 'search-in-place' ) . '</span></h3>
 						<div class="inside">
+							<h3  style="color:#AAA;">' . esc_html__( 'Search box design', 'search-in-place' ) . '</h3>
+							<table class="form-table">
+								<tbody>
+									<tr valign="top">
+										<td scope="row">
+											<input type="checkbox" name="initial_search_box_design" ' . ( get_option( 'search_in_place_initial_search_box_design', 0 ) ? 'CHECKED' : '' ) . '><span style="margin-left:20px;">' . esc_html__( 'Turn off the plugin styles to utilize the search box design specified by WordPress and the active theme on the website.', 'search-in-place' ) . '</span></label>
+										</th>
+									</tr>
+								</body>
+							</table>
+							<h3  style="color:#AAA;">' . esc_html__( 'Popup results design', 'search-in-place' ) . '</h3>
 							<table class="form-table">
 								<tbody>
 									<tr valign="top">
@@ -726,6 +746,13 @@ class CodePeopleSearchInPlace {
 											<div id="active_item_background_color_picker"></div>
 										</td>
 									</tr>
+									<tr valign="top">
+										<th scope="row"></th>
+										<td style="text-align:right;">
+											<input type="button" value="' . esc_attr__( 'Reset Design', 'search-in-place' ) . '" class="button-secondary" onclick="search_in_place_settings_reset_design();" />
+										</td>
+									</tr>
+									<tr><td colspan="2"><hr /></td></tr>
 									<tr>
 										<td colspan="2" style="padding:0;"><p style="border:1px solid #FFCC66;background-color:#FFFFCC;padding:10px;margin:0;">' . esc_html__( 'The next options are available only for the advanced version of Search in Place', 'search-in-place' ) . '. <a href="https://searchinplace.dwbooster.com" target="_blank">' . esc_html__( 'CLICK HERE for more information', 'search-in-place' ) . '</a></p>
 										</td>
@@ -920,35 +947,54 @@ class CodePeopleSearchInPlace {
 		';
 		?>
 		<script>
+		function search_in_place_settings_reset_design() {
+			let $ = jQuery,
+				css = { 'background': 'initial', 'color': 'initial' };
+
+			$('[name="box_background_color"]').val('#F9F9F9').css(css);
+			$('[name="box_border_color"]').val('#DDDDDD').css(css);
+			$('[name="label_text_color"]').val('#333333').css(css);
+			$('[name="label_text_shadow"]').val('#FFFFFF').css(css);
+			$('[name="label_background_start_color"]').val('#F9F9F9').css(css);
+			$('[name="label_background_end_color"]').val('#ECECEC').css(css);
+			$('[name="active_item_background_color"]').val('#FFFFFF').css(css);
+		}
+
 		// Set the picker colors
+		function search_in_place_settings_initialize_color_pickers() {
+			let $ = jQuery;
+			$('#box_background_color_picker').hide();
+			$('#box_background_color_picker').farbtastic("#box_background_color");
+			$("#box_background_color").on('click', function(){$('#box_background_color_picker').slideToggle()});
+
+			$('#box_border_color_picker').hide();
+			$('#box_border_color_picker').farbtastic("#box_border_color");
+			$("#box_border_color").on('click', function(){$('#box_border_color_picker').slideToggle()});
+
+			$('#label_text_color_picker').hide();
+			$('#label_text_color_picker').farbtastic("#label_text_color");
+			$("#label_text_color").on('click', function(){$('#label_text_color_picker').slideToggle()});
+
+			$('#label_text_shadow_picker').hide();
+			$('#label_text_shadow_picker').farbtastic("#label_text_shadow");
+			$("#label_text_shadow").on('click', function(){$('#label_text_shadow_picker').slideToggle()});
+
+			$('#label_background_start_color_picker').hide();
+			$('#label_background_start_color_picker').farbtastic("#label_background_start_color");
+			$("#label_background_start_color").on('click', function(){$('#label_background_start_color_picker').slideToggle()});
+
+			$('#label_background_end_color_picker').hide();
+			$('#label_background_end_color_picker').farbtastic("#label_background_end_color");
+			$("#label_background_end_color").on('click', function(){$('#label_background_end_color_picker').slideToggle()});
+
+			$('#active_item_background_color_picker').hide();
+			$('#active_item_background_color_picker').farbtastic("#active_item_background_color");
+			$("#active_item_background_color").on('click', function(){$('#active_item_background_color_picker').slideToggle()});
+		}
+
 		jQuery(function(){
-			jQuery('#box_background_color_picker').hide();
-			jQuery('#box_background_color_picker').farbtastic("#box_background_color");
-			jQuery("#box_background_color").on('click', function(){jQuery('#box_background_color_picker').slideToggle()});
 
-			jQuery('#box_border_color_picker').hide();
-			jQuery('#box_border_color_picker').farbtastic("#box_border_color");
-			jQuery("#box_border_color").on('click', function(){jQuery('#box_border_color_picker').slideToggle()});
-
-			jQuery('#label_text_color_picker').hide();
-			jQuery('#label_text_color_picker').farbtastic("#label_text_color");
-			jQuery("#label_text_color").on('click', function(){jQuery('#label_text_color_picker').slideToggle()});
-
-			jQuery('#label_text_shadow_picker').hide();
-			jQuery('#label_text_shadow_picker').farbtastic("#label_text_shadow");
-			jQuery("#label_text_shadow").on('click', function(){jQuery('#label_text_shadow_picker').slideToggle()});
-
-			jQuery('#label_background_start_color_picker').hide();
-			jQuery('#label_background_start_color_picker').farbtastic("#label_background_start_color");
-			jQuery("#label_background_start_color").on('click', function(){jQuery('#label_background_start_color_picker').slideToggle()});
-
-			jQuery('#label_background_end_color_picker').hide();
-			jQuery('#label_background_end_color_picker').farbtastic("#label_background_end_color");
-			jQuery("#label_background_end_color").on('click', function(){jQuery('#label_background_end_color_picker').slideToggle()});
-
-			jQuery('#active_item_background_color_picker').hide();
-			jQuery('#active_item_background_color_picker').farbtastic("#active_item_background_color");
-			jQuery("#active_item_background_color").on('click', function(){jQuery('#active_item_background_color_picker').slideToggle()});
+			search_in_place_settings_initialize_color_pickers();
 
 			// Checkbox to switch toggle control.
 			const controls = document.querySelectorAll('input[type="checkbox"],input[type="radio"]');
