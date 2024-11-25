@@ -612,11 +612,26 @@ class CodePeopleSearchInPlace {
 											<label for="operator">' . esc_html__( 'Connection operator', 'search-in-place' ) . '</label>
 										</th>
 										<td>
-											<input aria-label="Connection operator - or" type="radio" name="connection_operator" value="or" ' . ( ( 'or' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> OR&nbsp;&nbsp;&nbsp;&nbsp;
-											<input aria-label="Connection operator - and" type="radio" name="connection_operator" value="and" ' . ( ( 'and' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> AND&nbsp;&nbsp;&nbsp;&nbsp;
-											<input aria-label="Connection operator - and" type="radio" name="connection_operator" value="exact" ' . ( ( 'exact' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> Exact
+											<label><input aria-label="Connection operator - or" type="radio" name="connection_operator" value="or" ' . ( ( 'or' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> OR</label>&nbsp;&nbsp;&nbsp;&nbsp;
+											<label><input aria-label="Connection operator - and" type="radio" name="connection_operator" value="and" ' . ( ( 'and' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> AND</label>&nbsp;&nbsp;&nbsp;&nbsp;
+											<label><input aria-label="Connection operator - and" type="radio" name="connection_operator" value="exact" ' . ( ( 'exact' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> Exact</label>
 											<br />
 											' . esc_html__( 'Get results with any or all of words in the search box.', 'search-in-place' ) . '
+										</td>
+									</tr>
+									<tr valign="top">
+										<td colspan="2">
+											<hr />
+											<p style="border:1px solid #FFCC66;background-color:#FFFFCC;padding:10px;margin:10px 0 0 0;">' . esc_html__( 'This option is exclusive to the advanced version of Search in Place. In the free version, the order of search results is determined by WordPress', 'search-in-place' ) . '. <a href="https://searchinplace.dwbooster.com" target="_blank">' . esc_html__( 'CLICK HERE for more information', 'search-in-place' ) . '</a></p>
+										</td>
+									</tr>
+									<tr valign="top">
+										<th scope="row">
+											<label for="order" style="color:#AAA;">' . esc_html__( 'Order by', 'search-in-place' ) . '</label>
+										</th>
+										<td>
+											<input aria-label="Order by relevance" type="radio" disabled /> ' . esc_html__( 'Relevance', 'search-in-place' ) . '&nbsp;&nbsp;&nbsp;&nbsp;
+											<input aria-label="Order by date" type="radio" disabled /> ' . esc_html__( 'Date', 'search-in-place' ) . '
 										</td>
 									</tr>
 								</tbody>
@@ -631,7 +646,7 @@ class CodePeopleSearchInPlace {
 								<tbody>
 									<tr valign="top">
 										<td>
-											<input aria-label="Post title" type="checkbox" checked disabled name="title" id="title"> ' . esc_html__( 'Post title', 'search-in-place' ) . ' <input aria-label="Post thumbnail" type="checkbox" name="thumbnail" id="thumbnail" value="1" ' . ( ( 1 == $search_in_place_display_thumbnail ) ? 'checked' : '' ) . ' /> ' . esc_html__( 'Post thumbnail', 'search-in-place' ) . ' <input aria-label="Post author" type="checkbox" name="author" value="1" id="author" ' . ( ( 1 == $search_in_place_display_author ) ? 'checked' : '' ) . ' /> ' . esc_html__( 'Post author', 'search-in-place' ) . ' <input aria-label="Post date" type="checkbox" name="date" id="date" value="1" ' . ( ( 1 == $search_in_place_display_date ) ? 'checked' : '' ) . ' /> ' . esc_html__( 'Post date', 'search-in-place' ) . ' <input aria-label="Post summary" type="checkbox" name="summary" id="summary" value="1" ' . ( ( 1 == $search_in_place_display_summary ) ? 'checked' : '' ) . ' /> ' . esc_html__( 'Post summary', 'search-in-place' ) . '
+											<label><input aria-label="Post title" type="checkbox" checked disabled name="title" id="title"> ' . esc_html__( 'Post title', 'search-in-place' ) . '</label> <label><input aria-label="Post thumbnail" type="checkbox" name="thumbnail" id="thumbnail" value="1" ' . ( ( 1 == $search_in_place_display_thumbnail ) ? 'checked' : '' ) . ' /> ' . esc_html__( 'Post thumbnail', 'search-in-place' ) . '</label> <label><input aria-label="Post author" type="checkbox" name="author" value="1" id="author" ' . ( ( 1 == $search_in_place_display_author ) ? 'checked' : '' ) . ' /> ' . esc_html__( 'Post author', 'search-in-place' ) . '</label> <label><input aria-label="Post date" type="checkbox" name="date" id="date" value="1" ' . ( ( 1 == $search_in_place_display_date ) ? 'checked' : '' ) . ' /> ' . esc_html__( 'Post date', 'search-in-place' ) . '</label> <label><input aria-label="Post summary" type="checkbox" name="summary" id="summary" value="1" ' . ( ( 1 == $search_in_place_display_summary ) ? 'checked' : '' ) . ' /> ' . esc_html__( 'Post summary', 'search-in-place' ) . '</label>
 										</td>
 									</tr>
 								</tbody>
@@ -672,7 +687,7 @@ class CodePeopleSearchInPlace {
 								<tbody>
 									<tr valign="top">
 										<td scope="row">
-											<input type="checkbox" name="initial_search_box_design" ' . ( get_option( 'search_in_place_initial_search_box_design', 0 ) ? 'CHECKED' : '' ) . '><span style="margin-left:20px;">' . esc_html__( 'Turn off the plugin styles to utilize the search box design specified by WordPress and the active theme on the website.', 'search-in-place' ) . '</span></label>
+											<label><input type="checkbox" name="initial_search_box_design" ' . ( get_option( 'search_in_place_initial_search_box_design', 0 ) ? 'CHECKED' : '' ) . '><span style="margin-left:20px;">' . esc_html__( 'Turn off the plugin styles to utilize the search box design specified by WordPress and the active theme on the website.', 'search-in-place' ) . '</span></label>
 										</th>
 									</tr>
 								</body>
@@ -759,7 +774,7 @@ class CodePeopleSearchInPlace {
 									</tr>
 									<tr>
 										<th>
-											<label for="box_background_color" style="color:#AAA;">' . esc_html__( 'Search in child pages of (Ids of parent pages separated by comma)', 'search-in-place' ) . '</label>
+											<label style="color:#AAA;">' . esc_html__( 'Search in child pages of (Ids of parent pages separated by comma)', 'search-in-place' ) . '</label>
 										</th>
 										<td>
 											<input aria-label="Search in child pages of (Ids of parent pages separated by comma)" type="text" style="width:100%;" disabled readonly />
@@ -767,7 +782,7 @@ class CodePeopleSearchInPlace {
 									</tr>
 									<tr>
 										<th>
-											<label for="box_background_color" style="color:#AAA;">' . esc_html__( 'Exclude posts/pages (Ids separated by comma)', 'search-in-place' ) . '</label>
+											<label style="color:#AAA;">' . esc_html__( 'Exclude posts/pages (Ids separated by comma)', 'search-in-place' ) . '</label>
 										</th>
 										<td>
 											<input aria-label="Exclude posts/pages (Ids separated by comma)" type="text" style="width:100%;" disabled readonly />
@@ -879,7 +894,7 @@ class CodePeopleSearchInPlace {
 								<tbody>
 									<tr valign="top">
 										<th scope="row">
-											<label for="highlight"  style="color:#AAA;">' . esc_html__( 'Highlight the terms in resulting pages', 'search-in-place' ) . '</label>
+											<label for="highlight_resulting_page"  style="color:#AAA;">' . esc_html__( 'Highlight the terms in resulting pages', 'search-in-place' ) . '</label>
 										</th>
 										<td>
 											<input aria-label="Highlight the terms in resulting pages" type="checkbox" name="highlight_resulting_page" id="highlight_resulting_page" onclick="forbiddenOption(this);" readonly disabled />
@@ -890,19 +905,19 @@ class CodePeopleSearchInPlace {
 									</td></tr>
 									<tr valign="top">
 										<th scope="row">
-											<label for="highlight">' . esc_html__( 'Terms colors in resulting pages and search in page', 'search-in-place' ) . '</label>
+											<label for="highlight_colors">' . esc_html__( 'Terms colors in resulting pages and search in page', 'search-in-place' ) . '</label>
 										</th>
 										<td>
-											<textarea aria-label="Terms colors in resulting pages and search in page" name="highlight_colors" rows="5" cols="40">' . esc_textarea( implode( "\n", $highlight_colors ) ) . '</textarea>
+											<textarea aria-label="Terms colors in resulting pages and search in page" id="highlight_colors" name="highlight_colors" rows="5" cols="40">' . esc_textarea( implode( "\n", $highlight_colors ) ) . '</textarea>
 											<div><i>' . esc_html__( 'Enter a color code per line. Ex. #FF0000', 'search-in-place' ) . '</i></div>
 										</td>
 									</tr>
 									<tr valign="top">
 										<th scope="row">
-											<label for="highlight">' . esc_html__( 'Search in page selectors', 'search-in-place' ) . '</label>
+											<label for="search_in_page_selectors">' . esc_html__( 'Search in page selectors', 'search-in-place' ) . '</label>
 										</th>
 										<td>
-											<input aria-label="Search in page selectors" type="text" name="search_in_page_selectors" style="width:100%;" value="' . esc_attr( implode( ',', $search_in_page_selectors ) ) . '">
+											<input aria-label="Search in page selectors" type="text" id="search_in_page_selectors" name="search_in_page_selectors" style="width:100%;" value="' . esc_attr( implode( ',', $search_in_page_selectors ) ) . '">
 											<div><i>' . __( 'Enter the selector where to search and highlight the search terms separated by comma.<br>Ex. <b>div.hentry,#content,#main,div.content,#middle,#container,#wrapper,article,.elementor,body</b>', 'search-in-place' ) . '</i></div>
 										</td>
 									</tr>
