@@ -71,6 +71,20 @@ var codepeople_search_in_place_generator = function (){
 			{
 				var t,h;
 
+				// kt-tabs
+				t = e.closest('.wp-block-kadence-tab');
+	            if (t.length && t.is(':hidden') && 'KBTabs' in window) {
+					let m = t.attr('class').match(/kt\-inner\-tab\-(\d+)/);
+					if( m ) {
+						let tab_id = m[1];
+						let w = e.closest('.kt-tabs-wrap');
+						if ( w.length ) {
+							KBTabs.setActiveTab(w[0], tab_id);
+							return;
+						}
+					}
+	            }
+
 				// e-n-accordion
 				t = e.closest('.e-n-accordion-item');
 				if(t.length){
