@@ -44,7 +44,7 @@ class CodePeopleSearchInPlace {
 	*/
 	public function init() {
 		// I18n
-		add_action('after_setup_theme', function(){ load_plugin_textdomain( 'search-in-place', false, dirname( plugin_basename( __FILE__ ) ) . '/../languages/' ); });
+		add_action('init', function(){ load_plugin_textdomain( 'search-in-place', false, dirname( plugin_basename( __FILE__ ) ) . '/../languages/' ); });
 
 		$root = trim( get_admin_url( get_current_blog_id() ), '/' ) . '/';
 
