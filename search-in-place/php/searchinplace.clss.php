@@ -63,6 +63,7 @@ class CodePeopleSearchInPlace {
 			'home'           => get_home_url( get_current_blog_id() ),
 			'summary_length' => get_option( 'search_in_place_summary_char_number', 20 ),
 			'operator'       => get_option( 'search_in_place_connection_operator', 'or' ),
+			'highlight_resulting_page' => get_option( 'search_in_place_highlight_resulting_page', 1 ),
 		);
 
 		$locale       = get_locale();
@@ -409,6 +410,7 @@ class CodePeopleSearchInPlace {
 		delete_option( 'search_in_place_connection_operator' );
 		delete_option( 'search_in_place_selectors' );
 		delete_option( 'search_in_place_highlight_colors' );
+		delete_option( 'search_in_place_highlight_resulting_page' );
 
 		$this->autocomplete->clearSettings();
 	} // End clearSettings
@@ -477,6 +479,8 @@ class CodePeopleSearchInPlace {
 				}
 			}
 
+			$search_in_place_highlight_resulting_page = isset( $_POST['highlight_resulting_page'] ) ? 1 : 0;
+
 			update_option( 'search_in_place_initial_search_box_design', isset( $_REQUEST['initial_search_box_design'] ) ? 1 : 0 );
 
 			update_option( 'search_in_place_box_background_color', $box_background_color );
@@ -501,6 +505,7 @@ class CodePeopleSearchInPlace {
 
 			update_option( 'search_in_place_highlight_colors', $highlight_colors );
 			update_option( 'search_in_place_selectors', $search_in_page_selectors );
+			update_option( 'search_in_place_highlight_resulting_page', $search_in_place_highlight_resulting_page );
 
 			// Update the autocomplete settings
 			$this->autocomplete->updateSettings( $_POST );
@@ -545,6 +550,8 @@ class CodePeopleSearchInPlace {
 
 		$highlight_colors             = get_option( 'search_in_place_highlight_colors', array( '#F4EFEC', '#B5DCE1', '#F4E0E9', '#D7E0B1', '#F4D9D0', '#D6CDC8', '#F4E3C9', '#CFDAF0' ) );
 		$search_in_page_selectors     = get_option( 'search_in_place_selectors', array( 'div.hentry', '#content', '#main', 'div.content', '#middle', '#container', '#wrapper', 'article', '.elementor', 'body' ) );
+
+		$search_in_place_highlight_resulting_page = get_option( 'search_in_place_highlight_resulting_page', 1 );
 
 		echo '
 			<div class="wrap">
@@ -889,15 +896,15 @@ class CodePeopleSearchInPlace {
 									</tr>
 								</tbody>
 							</table>
-							<h3  style="color:#AAA;">' . esc_html__( 'In Resulting Pages', 'search-in-place' ) . '</h3>
+							<h3>' . esc_html__( 'In Resulting Pages', 'search-in-place' ) . '</h3>
 							<table class="form-table">
 								<tbody>
 									<tr valign="top">
 										<th scope="row">
-											<label for="highlight_resulting_page"  style="color:#AAA;">' . esc_html__( 'Highlight the terms in resulting pages', 'search-in-place' ) . '</label>
+											<label for="highlight_resulting_page">' . esc_html__( 'Highlight the terms in resulting pages', 'search-in-place' ) . '</label>
 										</th>
 										<td>
-											<input aria-label="Highlight the terms in resulting pages" type="checkbox" name="highlight_resulting_page" id="highlight_resulting_page" onclick="forbiddenOption(this);" readonly disabled />
+											<input aria-label="Highlight the terms in resulting pages" type="checkbox" name="highlight_resulting_page" id="highlight_resulting_page" value="1" ' . ( ( 1 == $search_in_place_highlight_resulting_page ) ? 'checked' : '' ) . ' />
 										</td>
 									</tr>
 									<tr><td colspan="2" style="font-style:italic;color:#AAA;" >

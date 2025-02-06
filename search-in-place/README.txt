@@ -4,7 +4,7 @@ Donate link: https://searchinplace.dwbooster.com
 Tags: search,search pages,search posts,ajax,posts,page,post,post search,page search,content,title,highlight,attachment,navigation,search custom post type,custom post,woocommerce,admin,image,images,taxonomy,all or any terms,colors
 Requires at least: 3.0.5
 Tested up to: 6.7
-Stable tag: 1.3.3
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,7 @@ Search in Place features:
 *  Groups search results **by post type** (post, page);
 *  Allows to **limit the number of elements** in the dynamic search results;
 *  Allows to customize the **box colors**;
+*  Allows **highlight** the criteria for searching in results;
 *  Offers a different navigation option on the website.
 
 The plugin converts the website's search boxes into search in places. Furthermore, the plugin allows to insert additional search boxes using the shortcode:
@@ -51,7 +52,6 @@ The plugin transforms all search boxes in the website into search in place boxes
 
 **Premium Features:**
 
-*   Allows **highlight** the criteria for searching in results;
 *   Allows the searching in **metadata, taxonomies, and author display name** associated to the post, page or custom post type;
 *   Allows to define additional **post_types** to be considered for searching;
 *   Includes the integration with popular plugins like: **WooCommerce**, **WP e-Commerce**, **Jigoshop**, **Ready! Ecommerce Shopping Cart** and more;
@@ -149,6 +149,10 @@ A: Go to the settings page of the plugin, and enter the IDs of pages or posts th
 4.	Search in Place's Setup page.
 
 == Changelog ==
+
+= 1.4.0 =
+
+* Modifies the module that highlights and scrolls to the search terms in the results pages, unifying the process.
 
 = 1.3.3 =
 

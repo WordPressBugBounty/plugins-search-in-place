@@ -2,7 +2,7 @@
 /*
 Plugin Name: Search In Place
 Plugin URI: https://searchinplace.dwbooster.com
-Version: 1.3.3
+Version: 1.4.0
 Author: CodePeople
 Author URI: https://searchinplace.dwbooster.com
 Text Domain: search-in-place
@@ -10,7 +10,7 @@ Description: Search in Place improves blog search by displaying query results in
 */
 
 if ( ! defined( 'SEARCH_IN_PLACE_VERSION' ) ) {
-	define( 'SEARCH_IN_PLACE_VERSION', '1.3.3' );
+	define( 'SEARCH_IN_PLACE_VERSION', '1.4.0' );
 }
 
 require_once 'banner.php';
@@ -44,7 +44,7 @@ if ( ! function_exists( 'CodePeopleSearchInPlace_admin' ) ) {
 			$slug = basename( __FILE__ );
 			add_options_page( 'Search In Place', 'Search In Place', 'manage_options', $slug, array( &$codepeople_search_in_place_obj, 'printAdminPage' ) );
 
-			add_menu_page( 'Search In Place', 'Search In Place', 'manage_options', $slug, array( &$codepeople_search_in_place_obj, 'printAdminPage' ) );
+			add_menu_page( 'Search In Place', 'Search In Place', 'manage_options', $slug, array( &$codepeople_search_in_place_obj, 'printAdminPage' ), 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTAgMmE4IDggMCAxMDUuMjkzIDE0LjcwN2w0LjcwNyA0LjcwNyAxLjQxNC0xLjQxNC00LjcwNy00LjcwN0E4IDggMCAwMDEwIDJ6bTAgMmE2IDYgMCAxMTAgMTIgNiA2IDAgMDEwLTEyeiIgZmlsbD0iY3VycmVudENvbG9yIi8+PC9zdmc+' );
 
 			add_submenu_page( $slug, 'Upgrade', 'Upgrade', 'manage_options', 'search_in_place_upgrade', array( &$codepeople_search_in_place_obj, 'printAdminPage' ) );
 

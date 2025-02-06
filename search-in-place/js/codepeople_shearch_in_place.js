@@ -816,8 +816,39 @@ var codepeople_search_in_place_generator = function (){
 
 	var	searchObj = new searchInPlace();
 
-	if((codepeople_search_in_place.highlight*1) && codepeople_search_in_place.terms && codepeople_search_in_place.terms.length > 0){
-		searchObj.highlightTerms(codepeople_search_in_place.terms);
+	// Get highlight terms from URL parameters or sessionStorage.
+	let to_highlight = null;
+
+	if (
+		codepeople_search_in_place.highlight*1 ||
+		codepeople_search_in_place.highlight_resulting_page*1
+	) {
+		if (
+			codepeople_search_in_place.terms &&
+			0 < codepeople_search_in_place.terms.length
+		) {
+			to_highlight = codepeople_search_in_place.terms;
+		} else {
+			try {
+				to_highlight = ( new URLSearchParams( window.location.search ) ).get( 'highlight' );
+
+				if ( ! to_highlight && 'sessionStorage' in window ) {
+					to_highlight = sessionStorage.getItem('highlight');
+					sessionStorage.removeItem('highlight');
+				}
+
+				if ( to_highlight ) {
+					to_highlight = String(to_highlight).trim();
+					if ( to_highlight ) to_highlight = [ to_highlight ];
+				}
+			} catch( err ) {}
+		}
+
+		if ( to_highlight ) {
+			searchObj.highlightTerms( to_highlight );
+			let e = $( '.search-in-place-mark:eq(0)' );
+			if(e.length) scrollToTerm(e);
+		}
 	}
 
 	if((codepeople_search_in_place.identify_post_type)*1){
@@ -831,29 +862,3 @@ var codepeople_search_in_place_generator = function (){
 
 jQuery(codepeople_search_in_place_generator);
 jQuery(window).on('load', codepeople_search_in_place_generator);
-jQuery(window).on('load', function(){
-	setTimeout(
-		function(){
-			try {
-				let queryString = window.location.search,
-					urlParams = new URLSearchParams(queryString),
-					highlight = urlParams.get('highlight');
-				if ( null == highlight && 'sessionStorage' in window ) {
-					highlight = sessionStorage.getItem('highlight');
-					sessionStorage.removeItem('highlight');
-				}
-
-				if ( highlight ) {
-					highlight = String(highlight).trim();
-
-					if ( ! window.find(highlight) ) {
-						highlights = highlight.replace(/\s+/g, ' ').split(' ');
-						for ( let i in highlights ) {
-							if ( window.find( highlights[i] ) ) return;
-						}
-					}
-				}
-			} catch( err ) {}
-		}, 1000
-	);
-});
