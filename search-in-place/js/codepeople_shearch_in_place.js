@@ -834,7 +834,6 @@ var codepeople_search_in_place_generator = function (){
 
 				if ( ! to_highlight && 'sessionStorage' in window ) {
 					to_highlight = sessionStorage.getItem('highlight');
-					sessionStorage.removeItem('highlight');
 				}
 
 				if ( to_highlight ) {
@@ -862,3 +861,29 @@ var codepeople_search_in_place_generator = function (){
 
 jQuery(codepeople_search_in_place_generator);
 jQuery(window).on('load', codepeople_search_in_place_generator);
+jQuery(window).on('load', function(){
+	setTimeout(
+		function(){
+			try {
+				let to_highlight = ( new URLSearchParams( window.location.search ) ).get( 'highlight' );
+
+				if ( ! to_highlight && 'sessionStorage' in window ) {
+					to_highlight = sessionStorage.getItem('highlight');
+					sessionStorage.removeItem('highlight');
+				}
+
+				if ( jQuery('.search-in-place-mark.search-in-place-mark-active:visible').length ) return;
+
+				if ( to_highlight ) {
+					to_highlight = String(to_highlight).trim();
+					if ( ! window.find(to_highlight) ) {
+						to_highlight = to_highlight.replace(/\s+/g, ' ').split(' ');
+						for ( let i in to_highlight ) {
+							if ( window.find( to_highlight[i] ) ) return;
+						}
+					}
+				}
+			} catch( err ) { console.log( err ); }
+		}, 1000
+	);
+});

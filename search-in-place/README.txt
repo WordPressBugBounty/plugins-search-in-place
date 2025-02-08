@@ -4,7 +4,7 @@ Donate link: https://searchinplace.dwbooster.com
 Tags: search,search pages,search posts,ajax,posts,page,post,post search,page search,content,title,highlight,attachment,navigation,search custom post type,custom post,woocommerce,admin,image,images,taxonomy,all or any terms,colors
 Requires at least: 3.0.5
 Tested up to: 6.7
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -150,6 +150,7 @@ A: Go to the settings page of the plugin, and enter the IDs of pages or posts th
 
 == Changelog ==
 
+= 1.4.1 =
 = 1.4.0 =
 
 * Modifies the module that highlights and scrolls to the search terms in the results pages, unifying the process.
@@ -175,93 +176,3 @@ A: Go to the settings page of the plugin, and enter the IDs of pages or posts th
 = 1.2.0 =
 
 * Reimplements the search form insertion module to allow the plugin to recover smoothly from conflicts with third-party themes and plugins.
-
-= 1.1.19 =
-
-* Implements the support of Neve theme accordion.
-* Modifies the loading language module to guarantee compatibility with WP6.7
-
-= 1.1.18 =
-
-* Supports others accordions components.
-
-= 1.1.17 =
-
-* Removes the highlight parameter from the search results URLs.
-
-= 1.1.16 =
-
-* Modifies the plugin settings page to make it more user friendly.
-
-= 1.1.15 =
-
-* Modifies the search in page results to give more relevance to the text with the context in the results popup instead of the search term.
-
-= 1.1.14 =
-
-* Includes the search exact phrase option.
-* Allows jumping to the term in the resulting page.
-
-= 1.1.13 =
-
-* Allows applying the autocomplete feature to the search in current page search boxes.
-* Improves the search box appearance.
-
-= 1.1.12 =
-
-* Improves the user experience by allowing to hide the results popup by pressing Esc.
-
-= 1.1.11 =
-
-* Fixes an issue in the Gutenberg block to insert search boxes.
-* Fixes some incongruences in the shortcode arguments.
-* Includes a new attribute in the plugin settings to sort results by relevance or date (Professional plugin version).
-
-= 1.1.10 =
-
-* Implements support for e-n-accordion.
-* Removes deprecated JS code.
-
-= 1.1.9 =
-
-* Improves the search-in-place integration with screen readers.
-
-= 1.1.8 =
-
-* Improves the search-in-place integration with screen readers.
-* Modifies the search-in-place pop-up.
-* Fixes a minor issue when the search on the website and search in current page boxes are on the same page.
-
-= 1.1.7 =
-
-* Modifies the search results design.
-* Allows navigating with the keyboard between the found items in the search results pop-up.
-* It does not close the results pop-up as long as the found items have the focus.
-
-= 1.1.6 =
-
-* Fixes an issue with Arabic characters.
-
-= 1.1.5 =
-
-* Fixes an issue in the search in page content feature.
-
-= 1.1.4 =
-
-* Implements the integration with another DIVI accordion.
-
-= 1.1.3 =
-
-* Fixes a deprecated message in PHP8.2
-
-= 1.1.2 =
-
-* Fixes a minor issue with the results popup.
-
-= 1.1.1 =
-
-* Fixes a conflict with third-party plugins.
-
-= 1.1.0 =
-
-* Improves the summary extraction in search in current page.
