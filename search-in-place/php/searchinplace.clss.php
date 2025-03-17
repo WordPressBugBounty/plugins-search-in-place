@@ -205,6 +205,11 @@ class CodePeopleSearchInPlace {
 	public function populate() {
 		error_reporting( E_ERROR | E_PARSE );
 		global $wp_query, $wpdb, $cp_search_in_place;
+		global $userAccessManager;
+
+		if ( ! empty( $userAccessManager ) && is_object( $userAccessManager ) && method_exists( $userAccessManager, 'getAccessHandler' ) ) {
+			$uamAccessHandler = $userAccessManager->getAccessHandler();
+		}
 
 		$cp_search_in_place = true;
 
@@ -233,6 +238,14 @@ class CodePeopleSearchInPlace {
 		$posts = $wp_query->posts;
 
 		foreach ( $posts as $result ) {
+
+			if (
+				! empty( $uamAccessHandler ) &&
+				is_object( $uamAccessHandler ) &&
+				method_exists( $uamAccessHandler, 'checkObjectAccess' ) &&
+				! $uamAccessHandler->checkObjectAccess( 'post', $result->ID )
+			) continue;
+
 			if ( in_array( $result->ID, $this->id_list ) ) {
 				continue;
 			} else {
