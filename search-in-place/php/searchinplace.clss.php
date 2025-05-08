@@ -950,6 +950,22 @@ class CodePeopleSearchInPlace {
 			// Display the autocomplete settings
 			$this->autocomplete->getSettings();
 			echo '
+					<div class="postbox search-in-place-postbox"><!-- Troubleshoot Area Postbox -->
+						<h3 class="hndle"><span style="color:#AAA;">' . esc_html__( 'Troubleshoot area', 'search-in-place' ) . '</span></h3>
+						<div class="inside">
+							<td colspan="2" style="padding:0;"><p style="border:1px solid #FFCC66;background-color:#FFFFCC;padding:10px;margin:0;">' . esc_html__( 'This option is available for the advanced version of Search in Place', 'search-in-place' ) . '. <a href="https://searchinplace.dwbooster.com" target="_blank">' . esc_html__( 'CLICK HERE for more information', 'search-in-place' ) . '</a></p>
+							<table class="form-table">
+								<tbody>
+									<tr valign="top">
+										<td>
+											<label><input aria-label="Disable multilanguage search" type="checkbox" onclick="forbiddenOption(this);" disabled readonly />
+											<span style="color:#AAA;">' . esc_html__( 'If you are using WPML or Polylangs and some posts do not appear in the search results, please, tick the checkbox and press the "Update Settings" button.', 'search-in-place' ) . '</span></label>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 					<div style="width:100%; border: 1px solid #FF0000; padding: 20px; margin-top:20px; box-sizing: border-box;">
 						<h3 style="color:#FF0000;">' . esc_html__( 'Recommended before uninstalling', 'search-in-place' ) . '</h3>
 						<table class="form-table">
@@ -976,7 +992,7 @@ class CodePeopleSearchInPlace {
 			<script>
 				function forbiddenOption(e){
 					e.checked = false;
-					window.alert("' . esc_html__( 'The option selected is available only in the advanced version, please go to the product\'s webpage  through the previous link', 'search-in-place' ) . '");
+					window.alert("' . esc_js(__( 'The option selected is available only in the advanced version, please go to the product\'s webpage  through the previous link', 'search-in-place' ) ) . '");
 				}
 			</script>
 		';
