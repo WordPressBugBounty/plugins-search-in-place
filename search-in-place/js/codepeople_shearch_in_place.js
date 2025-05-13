@@ -429,7 +429,7 @@ var codepeople_search_in_place_generator = function (){
 
 				// Search in page
 				var terms = me.search.replace(/^\s+/, '').replace(/\s+$/, '').replace(/\s+/g, ' ');
-				if('operator' in codepeople_search_in_place && codepeople_search_in_place['operator'] == 'and')
+				if('operator' in codepeople_search_in_place && codepeople_search_in_place['operator'] != 'or')
 				terms = [terms];
 				else
 				terms = terms.split(' ');
