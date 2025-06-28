@@ -439,6 +439,36 @@ var codepeople_search_in_place_generator = function (){
 					p[0] = p[0].normalize();
 				});
 
+				//
+				function addWordPressQuoteVariants(terms) {
+					const result = JSON.parse( JSON.stringify( terms ) );
+
+					for ( let i in terms ) {
+						if (
+							typeof terms[i] !== 'string' ||
+							! /['"]/.test( terms[i] )
+						) continue;
+
+						// Create variants by replacing quotes
+						const variants = [
+							terms[i].replace( /(?<!\w)"/g, '“' ),
+							terms[i].replace( /"(?<!\w)/g, '”' ),
+							terms[i].replace( /(?<!\w)'/g, '‘' ),
+							terms[i].replace( /'/g, '’' ),
+							terms[i].replace( /(?<!\w)"/g, '“' ).replace( /"(?<!\w)/g, '”' ).replace( /(?<!\w)'/g, '‘' ).replace( /'/g, '’' )
+						];
+
+						for ( let j in variants ) {
+							if ( variants[j] !== terms[i] && result.indexOf( variants[j] ) == -1 ) {
+								result.push( variants[j] );
+							}
+						}
+					}
+
+					return result;
+				}
+
+				terms = addWordPressQuoteVariants( terms );
 				var result = searchObj.highlightTerms(terms);
 				if(e.data('no-popup') == undefined)
 				{
