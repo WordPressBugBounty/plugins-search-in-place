@@ -12,6 +12,7 @@ if ( ! class_exists( 'CPSPAutocomplete' ) ) {
 			$lang            = get_locale();
 			$this->_defaults = array(
 				'enabled' => true,
+				'method'  => 'google',
 				'count'   => 10,
 				'chars'   => 25,
 				'lang'    => substr( $lang, 0, 2 ),
@@ -49,6 +50,7 @@ if ( ! class_exists( 'CPSPAutocomplete' ) ) {
 			$this->_getSettings();
 
 			$this->setAttr( 'enabled', isset( $settings['autocomplete'] ) ? true : false );
+			$this->setAttr( 'method', empty( $settings['autocomplete_method'] ) || $settings['autocomplete_method'] == 'google'  ? 'google' : 'website' );
 			$this->setAttr( 'start', isset( $settings['autocomplete_start'] ) ? true : false );
 			if ( isset( $settings['autocomplete_chars'] ) ) {
 				$this->setAttr( 'chars', is_numeric( $settings['autocomplete_chars'] ) ? intval( $settings['autocomplete_chars'] ) : 0 );
@@ -66,10 +68,27 @@ if ( ! class_exists( 'CPSPAutocomplete' ) ) {
 		} // setAttr
 
 		public function getSettings() {
-			 echo '
+			echo '
+			<style>
+				.website-method{display:' . ( $this->getAttr( 'method' ) == 'website' ? 'table-row' : 'none'  ) . ';}
+				.google-method{display:' . ( $this->getAttr( 'method' ) == 'google' ? 'table-row' : 'none'  ) . ';}
+			</style>
+			<script>
+				jQuery(document).on("change", \'[name="autocomplete_method"]\', function(){
+					let m = jQuery(\'[name="autocomplete_method"]:checked\').val();
+					if(m == "google") {
+						jQuery(".google-method").css("display", "table-row");
+						jQuery(".website-method").hide();
+					} else {
+						jQuery(".website-method").css("display", "table-row");
+						jQuery(".google-method").hide();
+					}
+				});
+			</script>
 			<div class="postbox search-in-place-postbox">
-				<h3 class="hndle"><span>' . esc_html( __( 'Google Autocomplete', 'search-in-place' ) ) . '</span></h3>
+				<h3 class="hndle"><span>' . esc_html( __( 'Autocomplete', 'search-in-place' ) ) . '</span></h3>
 				<div class="inside">
+
 					<table class="form-table">
 						<tbody>
 							<tr valign="top">
@@ -78,9 +97,28 @@ if ( ! class_exists( 'CPSPAutocomplete' ) ) {
 								</th>
 								<td>
 									<input type="checkbox" name="autocomplete" id="autocomplete" value="1" ' . ( ( $this->getAttr( 'enabled' ) ) ? 'checked' : '' ) . ' />
+									<div style="font-weight:600;margin-top:30px;margin-bottom:15px;">' . esc_html__( 'Get terms suggestion from', 'search-in-place' ) . '</div>
+									<div style="display:flex; align-items:center; gap:20px;">
+										<div><label><input type="radio" name="autocomplete_method" value="google" ' . ( $this->getAttr( 'method' ) == 'google' ? 'checked' : '' ) . '> Google</label></div>
+										<div><label><input type="radio" name="autocomplete_method" value="website" ' . ( $this->getAttr( 'method' ) == 'website' ? 'checked' : '' ) . '> Website (experimental)</label></div>
+									</div>
 								</td>
 							</tr>
-							<tr valign="top">
+							<tr valign="top" class="website-method">
+								<td colspan="2">
+									<p style="border:1px solid #4caf50;margin-bottom:10px;padding:5px;background-color: #e6f5e6;">
+										' . esc_html__( "The Website alternative is still experimental, as it can be influenced by the structure of the website. It extracts term suggestions directly from the website's information, including page and post titles, content, and excerpts.", 'search-in-place' ) . '
+									</p>
+								</td>
+							</tr>
+							<tr valign="top" class="google-method">
+								<td colspan="2">
+									<p style="border:1px solid #4caf50;margin-bottom:10px;padding:5px;background-color: #e6f5e6;">
+										' . esc_html__( "The Google alternative utilizes the \"Google Suggest Query\" API to retrieve term suggestions based on Google's search experience. However, the suggested terms may not always be closely related to the specific website.", 'search-in-place' ) . '
+									</p>
+								</td>
+							</tr>
+							<tr valign="top" class="google-method">
 								<th scope="row">
 									<label for="autocomplete_chars">' . esc_html( __( 'Max keyword length', 'search-in-place' ) ) . '</label>
 								</th>
@@ -88,7 +126,7 @@ if ( ! class_exists( 'CPSPAutocomplete' ) ) {
 									<input type="number" name="autocomplete_chars" id="autocomplete_chars" value="' . esc_attr( $this->getAttr( 'chars' ) ) . '" />
 								</td>
 							</tr>
-							<tr valign="top">
+							<tr valign="top" class="google-method">
 								<th scope="row">
 									<label for="autocomplete_count">' . esc_html( __( 'Max keywords count', 'search-in-place' ) ) . '</label>
 								</th>
@@ -96,7 +134,7 @@ if ( ! class_exists( 'CPSPAutocomplete' ) ) {
 									<input type="number" name="autocomplete_count" id="autocomplete_count" value="' . esc_attr( $this->getAttr( 'count' ) ) . '" />
 								</td>
 							</tr>
-							<tr valign="top">
+							<tr valign="top" class="google-method">
 								<th scope="row">
 									<label for="autocomplete_start">' . esc_html( __( 'Suggest terms starting with the typed text', 'search-in-place' ) ) . '</label>
 								</th>
@@ -121,15 +159,11 @@ if ( ! class_exists( 'CPSPAutocomplete' ) ) {
 			}
 		} // getAttr
 
-		public function autocomplete( $terms = '' ) {
-			$result = array(); // Result
+		private function _fromGoogle( $terms ) {
+			$result 	= array(); // Result
 
-			if ( ! $this->getAttr( 'enabled' ) ) {
-				return $result;
-			}
-
-			$url      = $this->getAttr( 'url' ) . '&hl=' . $this->getAttr( 'lang' ) . '&q=' . urlencode( $terms );
-			$response = wp_remote_get(
+			$url      	= $this->getAttr( 'url' ) . '&hl=' . $this->getAttr( 'lang' ) . '&q=' . urlencode( $terms );
+			$response 	= wp_remote_get(
 				$url,
 				array(
 					'sslverify'  => false,
@@ -194,6 +228,99 @@ if ( ! class_exists( 'CPSPAutocomplete' ) ) {
 			}
 
 			return $result;
+
+		} // _fromGoogle
+
+		private function _fromWebsite( $terms ) {
+			global $wpdb;
+
+			$result = [];
+
+			$like = '%' . $wpdb->esc_like($terms) . '%';
+			$sql = $wpdb->prepare(
+				"SELECT ID, post_title, post_excerpt, post_content
+				FROM $wpdb->posts
+				WHERE post_status='publish'
+				  AND (post_title LIKE %s
+				   OR post_excerpt LIKE %s
+				   OR post_content LIKE %s)
+				LIMIT 50",
+				[$like, $like, $like]
+			);
+
+			$rows = $wpdb->get_results($sql);
+
+			$extract_suggestion = function ($text, $terms) {
+				$pos = mb_stripos($text, $terms);
+
+				if ($pos === false) {
+					return null;
+				}
+
+				$after = mb_substr($text, $pos + mb_strlen($terms));
+
+				// Normalize multiple spaces
+				$after = preg_replace('/\s+/u', ' ', $after);
+
+				if ($after === '') {
+					return null;
+				}
+
+				$firstChar = mb_substr($after, 0, 1);
+
+				// Case 1: incomplete word (next char is a letter or number)
+				if (preg_match('/[\p{L}\p{N}]/u', $firstChar)) {
+					// return the rest of the word until next space
+					if (preg_match('/^([\p{L}\p{N}]+)/u', $after, $m)) {
+						return $m[1];
+					}
+				}
+
+				// Case 2: complete word
+				// Remove tags from beginning
+				$after = ltrim($after);
+				$after = preg_replace('/<[^>]*>/', '', $after); // remove tags safely
+				$after = ltrim($after);
+
+				if (preg_match('/^([\p{L}\p{N}]+)/u', $after, $m)) {
+					return ' ' . $m[1];
+				}
+
+				return null;
+			};
+
+			foreach ($rows as $row) {
+				$flag = false;
+				foreach (['post_title', 'post_excerpt', 'post_content'] as $field) {
+					$raw = $row->$field;
+					$s = $extract_suggestion($raw, $terms);
+					if ($s) {
+						$result[] 	= $terms . $s;
+						$flag 		= true;
+						break;
+					}
+				}
+				if ( $flag ) break;
+			}
+
+			return $result;
+		} // _fromWebsite
+
+		public function autocomplete( $terms = '' ) {
+			$result = []; // Result
+
+			if ( empty( $terms ) || ! $this->getAttr( 'enabled' ) ) {
+				return $result;
+			}
+
+			if ( $this->getAttr('method') == 'google' ) {
+				$result = $this->_fromGoogle( $terms );
+			} else {
+				$result = $this->_fromWebsite( $terms );
+			}
+
+			return $result;
+
 		} // autocomplete
 	} // End CPSPAutocomplete
 }
