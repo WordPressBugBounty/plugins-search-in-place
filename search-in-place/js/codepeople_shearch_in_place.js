@@ -242,15 +242,9 @@ var codepeople_search_in_place_generator = function (){
 				return false;
 			});
 
-			if(jQuery.fn.on){
-				$(document).on('mouseover mouseout', '.search-in-place>.item', function(evt){$(this).toggleClass('active');})
-						   .on('mousedown', '.search-in-place>.item', clickOnLink)
-						   .on('mousedown', '.search-in-place>.label.more', clickOnLink);
-			}else{
-				$('.search-in-place>.item').live('mouseover mouseout', function(evt){$(this).toggleClass('active');})
-										   .live('mousedown', clickOnLink)
-										   .live('mousedown', '.search-in-place>.label.more', clickOnLink);
-			}
+            $(document).on('mouseover mouseout', '.search-in-place>.item', function(){$(this).toggleClass('active');})
+                       .on('mousedown', '.search-in-place>.item', clickOnLink)
+                       .on('mousedown', '.search-in-place>.label.more', clickOnLink);
 		};
 
 	searchInPlace.prototype = {
@@ -372,7 +366,8 @@ var codepeople_search_in_place_generator = function (){
 
 		getResults : function(e){
 			var me 	= this,
-				source = (e.data('search-in-page')) ? 'source' : 'website';
+				source = (e.data('search-in-page')) ? 'source' : 'website',
+                areas = e.data('search-in-sections') ? e.data('search-in-sections').split(',').map(s => s.trim()).filter(Boolean) : me.config.areas;
 
 			function processResults(r)
 			{
@@ -404,7 +399,16 @@ var codepeople_search_in_place_generator = function (){
 					sw = e.outerWidth(),
 					so = {'left' : o.left, 'top' : (parseInt(o.top) + e.outerHeight()+5)};
 
-				if(me.search == e.val() && s.length && me.source == source)
+				if(
+					me.search == e.val() &&
+					s.length &&
+					me.source == source &&
+					(
+						source != 'source' ||
+						!s.data('search-in-sections') ||
+						s.data('search-in-sections') == e.data('search-in-sections')
+					)
+				)
 				{
 					s.show().width(sw).offset(so);
 					return;
@@ -413,8 +417,11 @@ var codepeople_search_in_place_generator = function (){
 				// Remove results container inserted previously
 				s.remove();
 				s = $('<div class="search-in-place"></div>');
-
 				s.appendTo('body');
+
+				if (source == 'source' && e.data('search-in-sections')) {
+					s.data('search-in-sections', e.data('search-in-sections'));
+				}
 
 				s.width(sw).offset(so);
 				me.displayLoading(s);
@@ -469,7 +476,7 @@ var codepeople_search_in_place_generator = function (){
 				}
 
 				terms = addWordPressQuoteVariants( terms );
-				var result = searchObj.highlightTerms(terms);
+				var result = searchObj.highlightTerms(terms, areas);
 				if(e.data('no-popup') == undefined)
 				{
 					processResults(result);
@@ -682,7 +689,7 @@ var codepeople_search_in_place_generator = function (){
 			e.append('<div class="label"><div class="loading"></div></div>');
 		},
 
-		highlightTerms : function(terms){
+		highlightTerms : function(terms, areas){
 			var me = this, color, counter = 0, results = {"result":{"source":[]}, "autocomplete":[]};
 
 			/* FOR EVERY ITEM
@@ -821,7 +828,7 @@ var codepeople_search_in_place_generator = function (){
             };
 
 			$.each(
-				me.config.areas,
+				areas ?? me.config.areas,
 				function(i, b)
 				{
 					b = $(b);

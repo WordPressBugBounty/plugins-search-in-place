@@ -20,6 +20,10 @@ jQuery(function(){
 			},
 
 			attributes: {
+                search_in_sections : {
+                    type 	: 'text',
+                    default : ''
+                },
 				placeholder : {
 					type 	: 'text',
 					default : ''
@@ -226,6 +230,29 @@ jQuery(function(){
 										},
 										'Display the search button (affects the search in current page only)'
 									),
+                                    el(
+                                        'label',
+                                        {
+                                            key: 'sip_search_in_sections_label',
+                                            style: { marginTop: '10px', display: 'block' }
+                                        },
+                                        'Search in sections'
+                                    ),
+                                    el(
+                                        'input',
+                                        {
+                                            type: 'text',
+                                            key: 'sip_search_in_sections',
+                                            value: props.attributes.search_in_sections,
+                                            onChange: function (evt) {
+                                                props.setAttributes(
+                                                    { search_in_sections: evt.target.value }
+                                                );
+                                            },
+                                            style: { width: '100%' },
+                                        },
+                                    ),
+                                    el( 'span', {key: 'sip_search_in_sections_desc', style:{fontSize: '12px', color: '#666'}}, 'Comma separated list of CSS selectors to limit the search in specific sections of the page. If empty, the whole page will be searched.' )
 								]
 							)
 						)
@@ -245,6 +272,8 @@ jQuery(function(){
 				if(props.attributes.no_popup) shortcode += ' no_popup="1"';
 				if(props.attributes.exclude_hidden) shortcode += ' exclude_hidden_terms="1"';
 				if(props.attributes.display_button) shortcode += ' display_button="1"';
+                if (props.attributes.search_in_sections && props.attributes.search_in_sections.length)
+                    shortcode += ' search_in_sections="' + props.attributes.search_in_sections.replace(/"/g, '\"') + '"';
 				shortcode += ']';
 				return el( 'div', null, shortcode );
 			}

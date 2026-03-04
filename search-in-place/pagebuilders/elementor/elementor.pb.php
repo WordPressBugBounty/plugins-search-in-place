@@ -40,6 +40,7 @@ class Elementor_SearchInPlace_Widget extends Widget_Base {
 			array(
 				'label'      => esc_html__( 'Placeholder text', 'search-in-place' ),
 				'type'       => Controls_Manager::TEXT,
+                'label_block' => true,
 				'input_type' => 'text',
 			)
 		);
@@ -98,6 +99,17 @@ class Elementor_SearchInPlace_Widget extends Widget_Base {
 			)
 		);
 
+		$this->add_control(
+            'search_in_sections',
+			array(
+				'label'       => esc_html__('Search in sections', 'search-in-place' ),
+                'type'       => Controls_Manager::TEXT,
+                'input_type' => 'text',
+                'label_block' => true,
+                'description' => __('Comma separated list of CSS selectors to limit the search in specific sections of the page. If empty, the whole page will be searched.', 'search-in-place' ),
+			)
+		);
+
 		$this->end_controls_section();
 	} // End register_controls
 
@@ -125,7 +137,10 @@ class Elementor_SearchInPlace_Widget extends Widget_Base {
 			$attrs .= ' display_button="1"';
 		}
 
-		return '[search-in-place-form' . $attrs . ']';
+        if ( isset( $settings['search_in_sections'] ) && ! empty( $settings['search_in_sections'] ) ) {
+            $attrs .= ' search_in_sections="' . esc_attr( $settings['search_in_sections'] ) . '"';
+        }
+        return '[search-in-place-form' . $attrs . ']';
 	} // End _get_shortcode
 
 	protected function render() {

@@ -54,6 +54,10 @@ if ( ! class_exists( 'CPSP_PAGEBUILDERS' ) ) {
 								'default' => 0,
 								'type'    => 'integer',
 							),
+							'search_in_sections' => array(
+								'default' => '',
+								'type'    => 'string',
+							),
 						),
 					)
 				);
@@ -97,9 +101,14 @@ if ( ! class_exists( 'CPSP_PAGEBUILDERS' ) ) {
 			' disable_enter_key="' . ( isset( $attributes['disable_enter_key'] ) && @intval( $attributes['disable_enter_key'] ) ? 1 : 0 ) . '"' .
 			' no_popup="' . ( isset( $attributes['no_popup'] ) && @intval( $attributes['no_popup'] ) ? 1 : 0 ) . '"' .
 			' exclude_hidden_terms="' . ( isset( $attributes['exclude_hidden'] ) && @intval( $attributes['exclude_hidden'] ) ? 1 : 0 ) . '"' .
-			' display_button="' . ( isset( $attributes['display_button'] ) && @intval( $attributes['display_button'] ) ? 1 : 0 ) . '"]';
-
-			return do_shortcode( $shortcode );
+			' display_button="' . ( isset( $attributes['display_button'] ) && @intval( $attributes['display_button'] ) ? 1 : 0 ) . '"'.
+            ( isset( $attributes['search_in_sections'] ) && ! empty( $attributes['search_in_sections'] ) ? ' search_in_sections="' . esc_attr( $attributes['search_in_sections'] ) . '"' : '' ) .
+            ']';
+            if ( isset($_REQUEST['context']) && $_REQUEST['context'] === 'edit' ) {
+			    return preg_replace( '/<input /i', '<input disabled readonly ', do_shortcode( $shortcode ) );
+            } else {
+			    return do_shortcode( $shortcode );
+            }
 		} // End render_gutenberg_block
 		/**************************** ELEMENTOR ****************************/
 

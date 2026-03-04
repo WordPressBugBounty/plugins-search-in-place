@@ -163,6 +163,13 @@ class CodePeopleSearchInPlace {
 			$search = str_replace( 'name="s"', 'name="s" data-exclude-hidden="1"', $search );
 		}
 
+        if ( $in_current_page && isset( $atts['search_in_sections'] ) && is_string($atts['search_in_sections'] ) ) {
+            $search_in_page_selectors = sanitize_text_field($atts['search_in_sections']);
+            if (! empty($search_in_page_selectors)) {
+                $search = str_replace('name="s"', 'name="s" data-search-in-sections="' . esc_attr($search_in_page_selectors) . '"', $search);
+            }
+        }
+
 		if ( isset( $atts['placeholder'] ) ) {
 			if ( preg_match( '/placeholder="[^"]*"/i', $search ) ) {
 				$search = preg_replace( '/placeholder="[^"]*"/i', 'placeholder="' . esc_attr__( $atts['placeholder'], 'search-in-place' ) . '"', $search );
