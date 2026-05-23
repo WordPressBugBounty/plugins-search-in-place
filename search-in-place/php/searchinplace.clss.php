@@ -587,7 +587,7 @@ class CodePeopleSearchInPlace {
 				.toggle-switch input{opacity:0;width:0;height:0;}
 				.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;transition:.4s;border-radius:34px;}
 				.slider:before{position:absolute;content:"";height:26px;width:26px;left:4px;bottom:4px;background-color:white;transition:.4s;border-radius:50%;}
-				input:checked + .slider{background-color:#2196F3;}
+				input:checked + .slider{background-color:var(--wp-admin-theme-color,#2196F3);}
 				input:checked + .slider:before{transform:translateX(26px);}
 
 				textarea,select,input[type="text"],input[type="number"]{padding:5px 10px!important;box-sizing:border-box!important;border:2px solid #ccc!important;border-radius:4px!important;font-size:16px!important;transition:0.3s!important;min-width:220px;}
