@@ -143,6 +143,10 @@ class Elementor_SearchInPlace_Widget extends Widget_Base {
         return '[search-in-place-form' . $attrs . ']';
 	} // End _get_shortcode
 
+	public function has_widget_inner_wrapper(): bool {
+		return false;
+	}
+
 	protected function render() {
 		print do_shortcode( shortcode_unautop( $this->_get_shortcode() ) );
 	} // End render
