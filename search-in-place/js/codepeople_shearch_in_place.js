@@ -616,7 +616,7 @@ var codepeople_search_in_place_generator = function (){
 					var home = codepeople_search_in_place.home;
 					home += ( home.indexOf( '?' ) == -1 ) ? '?' : '&' ;
 					if('lang' in codepeople_search_in_place) home += 'lang='+codepeople_search_in_place.lang+'&';
-					s += '<a class="search-in-place-more" href="'+home+'s='+this.search+'&submit=Search">'+codepeople_search_in_place.more+' &gt;</a>';
+					s += '<a class="search-in-place-more" href="'+home+'s='+encodeURIComponent(this.search)+'&submit=Search">'+codepeople_search_in_place.more+' &gt;</a>';
 				}
 			}
 			else

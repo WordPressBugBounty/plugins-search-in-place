@@ -346,7 +346,7 @@ class CodePeopleSearchInPlace {
 			}
 
 			// The post title is a required field
-			$obj->title = apply_filters( 'localization', apply_filters( 'the_title', $result->post_title, $result->ID ) );
+			$obj->title = wp_strip_all_tags( apply_filters( 'localization', apply_filters( 'the_title', $result->post_title, $result->ID ) ) );
 
 			$type = esc_html__( $result->post_type, 'search-in-place' );
 			if ( ! isset( $post_list[ $type ] ) ) {
