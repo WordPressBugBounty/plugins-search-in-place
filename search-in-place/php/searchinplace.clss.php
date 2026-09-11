@@ -262,7 +262,7 @@ class CodePeopleSearchInPlace {
 			// Include the author in search results
 			if ( get_option( 'search_in_place_display_author', 1 ) == 1 ) {
 				$author      = get_userdata( $result->post_author );
-				$obj->author = $author->display_name;
+				$obj->author = wp_strip_all_tags( $author->display_name );
 			}
 
 			// The link to the item is required
@@ -337,6 +337,7 @@ class CodePeopleSearchInPlace {
 				}
 
 				// Set the search terms in bold
+				$summary = wp_strip_all_tags( $summary, true );
 				$obj->resume = preg_replace( '/(' . preg_quote( $s ) . ')/i', '<strong>$1</strong>', $summary ) . '<span class="ellipsis">[...]</span>';
 			}
 

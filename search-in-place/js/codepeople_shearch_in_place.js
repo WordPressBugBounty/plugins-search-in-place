@@ -7,7 +7,34 @@ var codepeople_search_in_place_generator = function (){
 	function isMobile() {
         try{ document.createEvent("TouchEvent"); return true; }
         catch(e){ return false; }
-    }
+    };
+
+	function escapeHTML(v, is_summary) {
+		is_summary = is_summary || false;
+		var div = document.createElement('div');
+		div.innerText = v;
+		v = div.innerHTML;
+		if ( is_summary ) {
+			v = v.replace(/&lt;strong&gt;/ig, '<strong>')
+				 .replace(/&lt;\/strong&gt;/ig, '</strong>')
+				 .replace(/&lt;span class="ellipsis"&gt;\[\.\.\.\]&lt;\/span&gt;/ig, '<span class="ellipsis">[...]</span>');
+		}
+		return v;
+	};
+
+	function escapeURL(u) {
+		try {
+			u = encodeURI(String(u));
+			return u
+				.replace(/&/g, '&amp;')
+				.replace(/"/g, '&quot;')
+				.replace(/'/g, '&#39;')
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;');
+		} catch (err) {
+			return '#';
+		}
+	};
 
 	var popup_is_visible = false,
 		screen_reader_alert_timeout,
@@ -584,7 +611,7 @@ var codepeople_search_in_place_generator = function (){
                 c  = 0;
 
 			for(var t in o){
-				s += '<div class="label">' + (t != 'source' ? t : '') + '</div>';
+				s += '<div class="label">' + escapeHTML(t != 'source' ? t : '') + '</div>';
 				var l = o[t],
                     h = l.length;
 
@@ -593,16 +620,16 @@ var codepeople_search_in_place_generator = function (){
 				for(var i=0; i < h; i++){
 					s += '<div class="item '+(i+1==h ? 'last': '')+'">';
 					if(l[i].thumbnail){
-						s += '<div class="thumbnail"><img src="'+l[i].thumbnail+'" style="visibility:hidden;float:left;position:absolute;" /></div><div class="data" style="margin-left:'+(me.config.image_width+5)+'px;min-height:'+me.config.image_height+'px;">';
+						s += '<div class="thumbnail"><img src="'+escapeURL(l[i].thumbnail)+'" style="visibility:hidden;float:left;position:absolute;" /></div><div class="data" style="margin-left:'+(me.config.image_width+5)+'px;min-height:'+me.config.image_height+'px;">';
 					}else{
 						s += '<div class="data">';
 					}
 
-					s += '<span class="title"><a href="'+l[i].link+'">'+(src == 'source' && l[i]['resume'] ? l[i]['resume'] : l[i].title)+'</a></span>';
-					if( src == 'source' && l[i].resume) s += '<span class="resume">'+l[i].title+'</span>';
-					else if(src != 'source' && l[i].resume) s += '<span class="resume">'+l[i].resume+'</span>';
-					if(l[i].author) s += '<span class="author">'+l[i].author+'</span>';
-					if(l[i].date) s += '<span class="date">'+l[i].date+'</span>';
+					s += '<span class="title"><a href="'+escapeURL(l[i].link)+'">'+escapeHTML(src == 'source' && l[i]['resume'] ? l[i]['resume'] : l[i].title, true)+'</a></span>';
+					if( src == 'source' && l[i].resume) s += '<span class="resume">'+escapeHTML(l[i].title)+'</span>';
+					else if(src != 'source' && l[i].resume) s += '<span class="resume">'+escapeHTML(l[i].resume, true)+'</span>';
+					if(l[i].author) s += '<span class="author">'+escapeHTML(l[i].author)+'</span>';
+					if(l[i].date) s += '<span class="date">'+escapeHTML(l[i].date)+'</span>';
 					s += '</div>'+
                     '<div style="clear:both;"></div>'+
                     '</div>';
@@ -614,14 +641,22 @@ var codepeople_search_in_place_generator = function (){
 				if(codepeople_search_in_place.result_number*1 <= c)
 				{
 					var home = codepeople_search_in_place.home;
-					home += ( home.indexOf( '?' ) == -1 ) ? '?' : '&' ;
-					if('lang' in codepeople_search_in_place) home += 'lang='+codepeople_search_in_place.lang+'&';
-					s += '<a class="search-in-place-more" href="'+home+'s='+encodeURIComponent(this.search)+'&submit=Search">'+codepeople_search_in_place.more+' &gt;</a>';
+					try {
+						 var more_url = new URL(home);
+						more_url.searchParams.set('s', this.search);
+						more_url.searchParams.set('submit', 'Search');
+						if('lang' in codepeople_search_in_place) more_url.searchParams.set('lang', codepeople_search_in_place.lang);
+						s += '<a class="search-in-place-more" href="'+more_url.toString()+'">'+escapeHTML(codepeople_search_in_place.more)+' &gt;</a>';
+					} catch (err) {
+						home += ( home.indexOf( '?' ) == -1 ) ? '?' : '&' ;
+						if('lang' in codepeople_search_in_place) home += 'lang='+encodeURIComponent(codepeople_search_in_place.lang)+'&';
+						s += '<a class="search-in-place-more" href="'+escapeURL(home+'s='+encodeURIComponent(this.search)+'&submit=Search')+'">'+escapeHTML(codepeople_search_in_place.more)+' &gt;</a>';
+					}
 				}
 			}
 			else
 			{
-				s += codepeople_search_in_place.empty;
+				s += escapeHTML( codepeople_search_in_place.empty );
 			}
             s += '</div>';
 
@@ -655,7 +690,7 @@ var codepeople_search_in_place_generator = function (){
 							}
 
 							el.prepend(
-								'<label class="search-in-place-alert" role="alert">' + alert_mssg + '</label>'
+								'<label class="search-in-place-alert" role="alert">' + escapeHTML(alert_mssg) + '</label>'
 							);
 						}
 					} catch( err ){}
@@ -888,8 +923,8 @@ var codepeople_search_in_place_generator = function (){
 	}
 
 	if((codepeople_search_in_place.identify_post_type)*1){
-		$('.type-post').prepend('<div class="search-in-place-type-post">'+codepeople_search_in_place.post_title+'</div>');
-		$('.type-page').prepend('<div class="search-in-place-type-page">'+codepeople_search_in_place.page_title+'</div>');
+		$('.type-post').prepend('<div class="search-in-place-type-post">'+escapeHTML(codepeople_search_in_place.post_title)+'</div>');
+		$('.type-page').prepend('<div class="search-in-place-type-page">'+escapeHTML(codepeople_search_in_place.page_title)+'</div>');
 	}
 
 	searchObj.autohide();

@@ -4,7 +4,7 @@ Donate link: https://searchinplace.dwbooster.com
 Tags: search,search pages,search posts,ajax,posts,page,post,post search,page search,content,title,highlight,attachment,navigation,search custom post type,custom post,woocommerce,admin,image,images,taxonomy,all or any terms,colors
 Requires at least: 3.0.5
 Tested up to: 7.1
-Stable tag: 1.5.5
+Stable tag: 1.5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -150,6 +150,7 @@ A: Go to the settings page of the plugin, and enter the IDs of pages or posts th
 
 == Changelog ==
 
+= 1.5.6 =
 = 1.5.5 =
 
 * Improves the plugin's security, thanks to Nixxies and the Patchstack team.
