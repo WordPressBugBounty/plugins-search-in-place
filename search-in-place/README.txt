@@ -1,10 +1,10 @@
 === Search in Place ===
 Contributors: codepeople
 Donate link: https://searchinplace.dwbooster.com
-Tags: search,search pages,search posts,ajax,posts,page,post,post search,page search,content,title,highlight,attachment,navigation,search custom post type,custom post,woocommerce,admin,image,images,taxonomy,all or any terms,colors
+Tags: search,ajax search,live search,wordpress search,in page search
 Requires at least: 3.0.5
 Tested up to: 7.1
-Stable tag: 1.5.6
+Stable tag: 1.5.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,6 +149,11 @@ A: Go to the settings page of the plugin, and enter the IDs of pages or posts th
 4.	Search in Place's Setup page.
 
 == Changelog ==
+
+= 1.5.7 =
+
+* Implements the BM25 algorithm to improve search relevance.
+* Adds new validation rules to improve the search process.
 
 = 1.5.6 =
 = 1.5.5 =

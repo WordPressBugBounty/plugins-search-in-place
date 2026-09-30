@@ -101,7 +101,7 @@ class CodePeopleSearchInPlace {
 					<span class="screen-reader-text">' .
 					_x( 'Search for:', 'label' ) .
 					'</span>
-					<input type="search" class="search-field" placeholder="' . esc_attr_x( 'Search &hellip;', 'placeholder' ) . '" value="' . get_search_query() . '" name="s" />
+					<input type="search" class="search-field" placeholder="' . esc_attr_x( 'Search &hellip;', 'placeholder' ) . '" value="' . esc_attr( get_search_query() ) . '" name="s" />
 				</label>
 				<input type="submit" class="search-submit" value="' . esc_attr_x( 'Search', 'submit button' ) . '" />
 			</form>';
@@ -475,21 +475,29 @@ class CodePeopleSearchInPlace {
 			$search_in_place_display_author      = ( ! empty( $_POST['author'] ) ) ? sanitize_text_field( wp_unslash( $_POST['author'] ) ) : 0;
 			$search_in_place_connection_operator = ( ! empty( $_POST['connection_operator'] ) && in_array( $_POST['connection_operator'], array( 'and', 'or', 'exact' ) ) ) ? sanitize_text_field( wp_unslash( $_POST['connection_operator'] ) ) : 'or';
 
-			$box_background_color         = ( isset( $_POST['box_background_color'] ) ) ? sanitize_text_field( wp_unslash( $_POST['box_background_color'] ) ) : '';
-			$box_border_color             = ( isset( $_POST['box_border_color'] ) ) ? sanitize_text_field( wp_unslash( $_POST['box_border_color'] ) ) : '';
-			$label_text_color             = ( isset( $_POST['label_text_color'] ) ) ? sanitize_text_field( wp_unslash( $_POST['label_text_color'] ) ) : '';
-			$label_text_shadow            = ( isset( $_POST['label_text_shadow'] ) ) ? sanitize_text_field( wp_unslash( $_POST['label_text_shadow'] ) ) : '';
-			$label_background_start_color = ( isset( $_POST['label_background_start_color'] ) ) ? sanitize_text_field( wp_unslash( $_POST['label_background_start_color'] ) ) : '';
-			$label_background_end_color   = ( isset( $_POST['label_background_end_color'] ) ) ? sanitize_text_field( wp_unslash( $_POST['label_background_end_color'] ) ) : '';
+			$box_background_color         = ( isset( $_POST['box_background_color'] ) ) ? sanitize_hex_color( wp_unslash( $_POST['box_background_color'] ) ) : '';
+			$box_border_color             = ( isset( $_POST['box_border_color'] ) ) ? sanitize_hex_color( wp_unslash( $_POST['box_border_color'] ) ) : '';
+			$label_text_color             = ( isset( $_POST['label_text_color'] ) ) ? sanitize_hex_color( wp_unslash( $_POST['label_text_color'] ) ) : '';
+			$label_text_shadow            = ( isset( $_POST['label_text_shadow'] ) ) ? sanitize_hex_color( wp_unslash( $_POST['label_text_shadow'] ) ) : '';
+			$label_background_start_color = ( isset( $_POST['label_background_start_color'] ) ) ? sanitize_hex_color( wp_unslash( $_POST['label_background_start_color'] ) ) : '';
+			$label_background_end_color   = ( isset( $_POST['label_background_end_color'] ) ) ? sanitize_hex_color( wp_unslash( $_POST['label_background_end_color'] ) ) : '';
 			$more_results_text            = ( isset( $_POST['more_results_text'] ) ) ? sanitize_text_field( wp_unslash( $_POST['more_results_text'] ) ) : 'More Results';
-			$active_item_background_color = ( isset( $_POST['active_item_background_color'] ) ) ? sanitize_text_field( wp_unslash( $_POST['active_item_background_color'] ) ) : '';
+			$active_item_background_color = ( isset( $_POST['active_item_background_color'] ) ) ? sanitize_hex_color( wp_unslash( $_POST['active_item_background_color'] ) ) : '';
 
 			$highlight_colors = ( isset( $_POST['highlight_colors'] ) ) ? sanitize_textarea_field( wp_unslash( $_POST['highlight_colors'] ) ) : '';
 			$highlight_colors = explode( "\n", $highlight_colors );
 			foreach ( $highlight_colors as $key => $value ) {
-				if ( trim( $value ) == '' ) {
+				$trimmed = trim( $value );
+				if ( $trimmed === '' ) {
 					unset( $highlight_colors[ $key ] );
+					continue;
 				}
+				$hex = sanitize_hex_color( $trimmed );
+				if ( $hex === '' ) {
+					unset( $highlight_colors[ $key ] );
+					continue;
+				}
+				$highlight_colors[ $key ] = $hex;
 			}
 
 			$search_in_page_selectors = ( isset( $_POST['search_in_page_selectors'] ) ) ? sanitize_text_field( wp_unslash( $_POST['search_in_page_selectors'] ) ) : '';
@@ -640,9 +648,18 @@ class CodePeopleSearchInPlace {
 											<label for="operator">' . esc_html__( 'Connection operator', 'search-in-place' ) . '</label>
 										</th>
 										<td>
-											<label><input aria-label="Connection operator - or" type="radio" name="connection_operator" value="or" ' . ( ( 'or' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> OR</label>&nbsp;&nbsp;&nbsp;&nbsp;
-											<label><input aria-label="Connection operator - and" type="radio" name="connection_operator" value="and" ' . ( ( 'and' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> AND</label>&nbsp;&nbsp;&nbsp;&nbsp;
-											<label><input aria-label="Connection operator - and" type="radio" name="connection_operator" value="exact" ' . ( ( 'exact' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> Exact</label>
+											<div class="search-in-place-connection-operator">
+												<label><input aria-label="'. esc_attr__( 'Connection operator - or', 'search-in-place' ) . '" type="radio" name="connection_operator" value="or" ' . ( ( 'or' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> ' . esc_html__( 'OR', 'search-in-place' ) . '</label>
+
+												<label><input aria-label="' . esc_attr__( 'Connection operator - and', 'search-in-place' ) . '" type="radio" name="connection_operator" value="and" ' . ( ( 'and' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> ' . esc_html__( 'AND', 'search-in-place' ) . '</label>
+
+												<label><input aria-label="'. esc_attr__( 'Connection operator - exact', 'search-in-place' ) . '" type="radio" name="connection_operator" value="exact" ' . ( ( 'exact' == $search_in_place_connection_operator ) ? 'CHECKED' : '' ) . ' /> ' . esc_html__( 'Exact', 'search-in-place' ) . '</label>
+
+												<span class="search-in-place-callout-container">
+													<label><input aria-label="' . esc_attr__('Connection operator - relevance', 'search-in-place') . '" type="radio" disabled /> ' . esc_html__('Relevance (BM25)', 'search-in-place') . '</label>
+													<span class="search-in-place-callout">' . esc_html__('Relevance search ranks results according to how closely they match the search terms, making it easier to find the most relevant information first. This feature is available in the advanced version of the plugin.', 'search-in-place') . ' <a href="https://searchinplace.dwbooster.com/download" target="_blank">' . esc_html__('Uprade to the advanced version', 'search-in-place') . '</a></span>
+												</span>
+											</div>
 											<br />
 											' . esc_html__( 'Get results with any or all of words in the search box.', 'search-in-place' ) . '
 										</td>
