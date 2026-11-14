@@ -17,6 +17,20 @@ class CodePeopleSearchInPlace {
 		CPSP_PAGEBUILDERS::run();
 	} // End __construct
 
+	/*
+		Decode the HTML entities left in the text by the WordPress filters (wptexturize, convert_chars, ...).
+		Those filters turn characters into entities (&#8211;, &rsquo;, &eacute;...) and wp_strip_all_tags()
+		does not decode them back, so they end up as literal text in the JSON output and the browser
+		renders them as visible characters.
+	*/
+	private function _decode_entities( $text ) {
+		$charset = get_option( 'blog_charset' );
+		if ( ! is_string( $charset ) || '' === trim( $charset ) ) {
+			$charset = 'UTF-8';
+		}
+		return html_entity_decode( (string) $text, ENT_QUOTES | ENT_HTML5, $charset );
+	} // End _decode_entities
+
 	private function _process_summary( &$text, $terms, $length, $post_id ) {
 		$l = strlen( $text );
 		$i = ( ! empty( $text ) && ! empty( $terms ) ) ? strpos( strtolower( $text ), strtolower( $terms ) ) : false;
@@ -337,7 +351,7 @@ class CodePeopleSearchInPlace {
 				}
 
 				// Set the search terms in bold
-				$summary = wp_strip_all_tags( $summary, true );
+				$summary = $this->_decode_entities( wp_strip_all_tags( $summary, true ) );
 				$obj->resume = preg_replace( '/(' . preg_quote( $s ) . ')/i', '<strong>$1</strong>', $summary ) . '<span class="ellipsis">[...]</span>';
 			}
 
@@ -347,7 +361,7 @@ class CodePeopleSearchInPlace {
 			}
 
 			// The post title is a required field
-			$obj->title = wp_strip_all_tags( apply_filters( 'localization', apply_filters( 'the_title', $result->post_title, $result->ID ) ) );
+			$obj->title = $this->_decode_entities( wp_strip_all_tags( apply_filters( 'localization', apply_filters( 'the_title', $result->post_title, $result->ID ) ) ) );
 
 			$type = esc_html__( $result->post_type, 'search-in-place' );
 			if ( ! isset( $post_list[ $type ] ) ) {
@@ -370,10 +384,18 @@ class CodePeopleSearchInPlace {
 			$autocomplete           = apply_filters( 'search-in-page-autocomplete', $autocomplete );
 			$output['autocomplete'] = $autocomplete;
 		}
+		// This endpoint returns JSON: declare the content type, so the browser never renders the body as HTML
+		if ( ! headers_sent() ) {
+			header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+		}
+
+		// Encode the markup sensitive characters (< > & " '), so the body cannot be interpreted as markup
+		// even if it is served with a text/html content type
+		$json_flags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
 		if ( defined( 'JSON_PARTIAL_OUTPUT_ON_ERROR' ) ) {
-			print json_encode( $output, JSON_PARTIAL_OUTPUT_ON_ERROR );
+			print json_encode( $output, $json_flags | JSON_PARTIAL_OUTPUT_ON_ERROR );
 		} else {
-			print json_encode( $output );
+			print json_encode( $output, $json_flags );
 		}
 		die;
 

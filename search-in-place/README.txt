@@ -4,7 +4,7 @@ Donate link: https://searchinplace.dwbooster.com
 Tags: search,ajax search,live search,wordpress search,in page search
 Requires at least: 3.0.5
 Tested up to: 7.1
-Stable tag: 1.5.7
+Stable tag: 1.5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,6 +149,10 @@ A: Go to the settings page of the plugin, and enter the IDs of pages or posts th
 4.	Search in Place's Setup page.
 
 == Changelog ==
+
+= 1.5.8 =
+
+* Fix an issue with encoded characters in the results popup.
 
 = 1.5.7 =
 
